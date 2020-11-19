@@ -81,7 +81,6 @@ class main
                     $info["endangerMachine"] += 1;
                     
                 }
-                echo 'yes';
                 if($days < 0){
                     $info["deadMachine"] += 1;
                 }
