@@ -12,6 +12,7 @@ $database = new medoo([
 class main
 {
     private $database;
+    private $key = 'jojo';
 
     public function __construct()
     {
@@ -31,8 +32,7 @@ class main
 
     public function login()
     {
-        $key = $this->database->select('user','*');
-        if($_GET['key'] == $key[0]['key']){
+        if($_GET['key'] == $this->key){
             exit(json_encode(['msg'=>'true']));
         }else{
             exit(json_encode(['msg'=>'false']));
@@ -52,6 +52,8 @@ class main
         exit(json_encode($machines));
     }
 
+
+
     public function getInfo()
     {
         $info = array(
@@ -69,9 +71,12 @@ class main
             if ($machines[$i]['auto'] == 1){
                 $info["autoMachine"] += 1;
             }else{
-                $days = $this->dateDistance($machines[$i]['deadline'],date("Y-m-d"));
-                if($days <= 15 and $days > 0){
+                $days = $this->dateDistance(date("Y-m-d"),$machines[$i]['deadline']);
+                if($days <= 15 and $days >= 0){
                     $info["endangerMachine"] += 1;
+                }
+                if($days < 0){
+                    $info["deadMachine"] += 1;
                 }
             }
             if ($machines[$i]['liked'] == 1){
@@ -102,6 +107,93 @@ class main
             ]);
             exit(json_encode($detail));
         }
+    }
+
+    public function updateMachineDetail(){
+        if(isset($_GET['id'])){
+            $result = $this->database->update("machines", [
+                "name" => $_GET["name"],
+                "liked" => $_GET["liked"],
+                "deadline" => $_GET["deadline"],
+                "location" => $_GET["location"],
+                "fee" => $_GET["fee"],
+                "cycle" => $_GET["cycle"],
+                "auto" => $_GET["auto"],
+                "panel" => $_GET["panel"],
+                "info" => $_GET["info"],
+                "HOST" => $_GET["HOST"],
+                "ip" => $_GET["ip"]
+            ], [
+                "rowid" => $_GET["id"]
+            ]);
+            exit(json_encode($result->rowCount()));
+        }
+    }
+
+    public function AddMachine(){
+        if(isset($_GET['id'])){
+            $result = $this->database->insert("machines", [
+                "name" => $_GET["name"],
+                "liked" => $_GET["liked"],
+                "deadline" => $_GET["deadline"],
+                "location" => $_GET["location"],
+                "fee" => $_GET["fee"],
+                "cycle" => $_GET["cycle"],
+                "auto" => $_GET["auto"],
+                "panel" => $_GET["panel"],
+                "info" => $_GET["info"],
+                "HOST" => $_GET["HOST"],
+                "ip" => $_GET["ip"]
+            ]);
+            exit(json_encode($result->rowCount()));
+        }
+    }
+
+    public function DeleteMachine(){
+        if(isset($_GET['id'])) {
+            $result = $this->database->delete("machines", [
+                "rowid" => $_GET["id"]
+            ]);
+            exit(json_encode($result->rowCount()));
+        }
+    }
+
+    public function Cron(){
+
+        $machines = $this->database->select('machines',['rowid','name','liked','deadline','auto','cycle']);
+
+        $machinesNum = count($machines);
+        $Machine = [];
+        $Machine["endanger"] = [];
+        $Machine["dead"] = [];
+        $Machine["auto"] = [];
+
+        for($i=0;$i<$machinesNum;$i++){
+            echo "------\n";
+            echo '名称:'.$machines[$i]["name"]."\n";
+            $days = $this->dateDistance(date("Y-m-d"),$machines[$i]['deadline']);
+            echo '距离过期'.$days."天\n";
+            if($days <=7 and $days>=0 and $machines[$i]['auto'] == 0){
+                $Machine["endanger"][] = $machines[$i]['name'];
+            }
+            if($days < 0 and $machines[$i]['auto'] == 0){
+                $Machine["dead"][] = $machines[$i]['name'];
+            }
+
+            if($days == 0 and $machines[$i]['auto'] == '1'){
+
+                $this->database->update("machines", [
+                    "deadline" => date('Y-m-d',strtotime("+".$machines[$i]['cycle']." day"))
+                ], [
+                    "rowid" => $machines[$i]['rowid']
+                ]);
+                $Machine["auto"][] = $machines[$i]['name'];
+            }
+
+        }
+
+        return $Machine;
+
     }
 
 }

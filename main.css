@@ -147,3 +147,27 @@ a,a:link,a:visited{
 .endanger > *{
     color:#ee827c!important;
 }
+
+#machine-detail,#machine-edit,#machine-add,#machine-delete{
+    padding: 25px;
+    background: RGB(250,250,250);
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+#machine-detail h2 span,#machine-edit h2 span,#machine-add h2 span,#machine-delete h2 span{
+    font-size:18px;
+    color:#999999;
+    float:right;
+    cursor: pointer;
+    margin-left: 10px;
+}
+textarea{
+    display: inline-block;
+    /*padding: .438rem .525rem;*/
+    border-radius: 0.3125rem;
+    overflow-y: visible;
+    width: 100%;
+    vertical-align: top;
+    color: #333;
+    border-color: #ececec;
+}
