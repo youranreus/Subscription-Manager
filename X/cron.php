@@ -16,4 +16,7 @@ $msg = "
     有".count($Machine["auto"])."台小鸡自动续费。[".$autoMachine."]
     请前往小鸡管理查看
     ";
-file_get_contents('http://sc.ftqq.com/SCU108711Te987fd883e60a263488101a8d91f1a965f2e0fe2eee7f.send?text='.urlencode($title).'&desp='.urlencode($msg));
+
+if($X->getServerChanKey() != ''){
+    file_get_contents('http://sc.ftqq.com/'.$X->getServerChanKey().'.send?text='.urlencode($title).'&desp='.urlencode($msg));
+}

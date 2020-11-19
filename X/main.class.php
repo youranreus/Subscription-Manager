@@ -13,6 +13,7 @@ class main
 {
     private $database;
     private $key = 'jojo';
+    private $serverChanKey = 'key';
 
     public function __construct()
     {
@@ -22,6 +23,10 @@ class main
     public function hello()
     {
         exit(json_encode(['msg'=>'backend']));
+    }
+
+    public function getServerChanKey(){
+        return $this->serverChanKey;
     }
 
     public function yo()
@@ -74,7 +79,9 @@ class main
                 $days = $this->dateDistance(date("Y-m-d"),$machines[$i]['deadline']);
                 if($days <= 15 and $days >= 0){
                     $info["endangerMachine"] += 1;
+                    
                 }
+                echo 'yes';
                 if($days < 0){
                     $info["deadMachine"] += 1;
                 }
