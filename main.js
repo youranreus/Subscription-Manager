@@ -49,7 +49,8 @@ let machine_component = Vue.component('machine_component', {
         if (this.logged !== 'true') {
             this.$router.push({path: '/u'})
         }
-        axios.get('/X/getMachineList?type=all')
+        let url = window.location.href.replace(window.location.hash,'');
+        axios.get(url + 'X/index.php?action=getMachineList&type=all')
             .then((response) => {
                 if (response.data.length !== 0) {
                     this.machines = response.data;
@@ -92,7 +93,8 @@ let u_component = Vue.component('u_component', {
     ,
     methods: {
         login: function () {
-            axios.get('/X/login?key=' + this.pwd)
+            let url = window.location.href.replace(window.location.hash,'');
+            axios.get(url + 'X/index.php?action=login&key=' + this.pwd)
                 .then((response) => {
                     if (response.data.msg === 'true') {
                         Cookies.set('UserStatus', 'true', {expires: 7});
@@ -199,14 +201,15 @@ let p_component = Vue.component('p_component', {
         if (this.logged !== 'true') {
             this.$router.push({path: '/u'})
         }
-        axios.get('/X/getMachineList')
+        let url = window.location.href.replace(window.location.hash,'');
+        axios.get(url + 'X/index.php?action=getMachineList')
             .then((response) => {
                 if (response.data.length !== 0) {
                     this.machines = response.data;
                     this.isEmpty = false;
                 }
             })
-        axios.get('/X/getInfo')
+        axios.get(url = 'X/index.php?action=getInfo')
             .then((response)=>{
                 if (response.data.length !== 0) {
                     this.info = response.data;
@@ -274,7 +277,8 @@ let machine_detail_component = Vue.component('machine_detail_component', {
     },
     methods:{
         getDetail: function(){
-            axios.get('/X/getMachineDetail?id=' + this.$route.params.id)
+            let url = window.location.href.replace(window.location.hash,'');
+            axios.get(url + 'X/index.php?action=getMachineDetail&id=' + this.$route.params.id)
                 .then((response)=>{
                     this.machineDetail = response.data[0]
                     document.getElementById('machine-otherDetail-content').innerHTML = marked(this.machineDetail["info"]);
@@ -445,7 +449,8 @@ let machine_edit_component = Vue.component('Machine_edit_component',{
     },
     methods:{
         getDetail: function(){
-            axios.get('/X/getMachineDetail?id=' + this.$route.params.id)
+            let url = window.location.href.replace(window.location.hash,'');
+            axios.get(url + 'X/index.php?action=getMachineDetail&id=' + this.$route.params.id)
                 .then((response)=>{
                     this.machineDetail = response.data[0]
                })
@@ -458,7 +463,8 @@ let machine_edit_component = Vue.component('Machine_edit_component',{
         },
         update: function(){
             if(this.machineDetail['name'] !== '' && this.machineDetail['liked'] !== '' && this.machineDetail['deadline'] !== '' && this.machineDetail['location'] !== '' && this.machineDetail['fee'] !== '' && this.machineDetail['cycle'] !== '' && this.machineDetail['auto'] !== '' && this.machineDetail['panel'] !== ''  && this.machineDetail['info'] !== '' && this.machineDetail['HOST'] !== '' && this.machineDetail['ip'] !== ''){
-                axios.get('/X/updateMachineDetail?id='+this.$route.params.id + '&name='+this.machineDetail['name']+'&liked='+this.machineDetail['liked']+'&deadline='+this.machineDetail['deadline']+'&location='+this.machineDetail['location']+'&fee='+this.machineDetail['fee']+'&cycle='+this.machineDetail['cycle']+'&auto='+this.machineDetail['auto']+'&panel='+this.machineDetail['panel']+'&info='+this.machineDetail['info']+'&HOST='+this.machineDetail['HOST']+'&ip='+this.machineDetail['ip'])
+                let url = window.location.href.replace(window.location.hash,'');
+                axios.get(url + 'X/index.php?action=updateMachineDetail&id='+this.$route.params.id + '&name='+this.machineDetail['name']+'&liked='+this.machineDetail['liked']+'&deadline='+this.machineDetail['deadline']+'&location='+this.machineDetail['location']+'&fee='+this.machineDetail['fee']+'&cycle='+this.machineDetail['cycle']+'&auto='+this.machineDetail['auto']+'&panel='+this.machineDetail['panel']+'&info='+this.machineDetail['info']+'&HOST='+this.machineDetail['HOST']+'&ip='+this.machineDetail['ip'])
                     .then((response)=>{
                         if(response.data === 1){
                             alert("编辑成功")
@@ -630,7 +636,8 @@ let machine_add_component = Vue.component('Machine_add_component',{
         },
         add: function(){
             if(this.machineDetail['name'] !== '' && this.machineDetail['liked'] !== '' && this.machineDetail['deadline'] !== '' && this.machineDetail['location'] !== '' && this.machineDetail['fee'] !== '' && this.machineDetail['cycle'] !== '' && this.machineDetail['auto'] !== '' && this.machineDetail['panel'] !== ''  && this.machineDetail['info'] !== '' && this.machineDetail['HOST'] !== '' && this.machineDetail['ip'] !== ''){
-                axios.get('/X/AddMachine?id='+this.$route.params.id + '&name='+this.machineDetail['name']+'&liked='+this.machineDetail['liked']+'&deadline='+this.machineDetail['deadline']+'&location='+this.machineDetail['location']+'&fee='+this.machineDetail['fee']+'&cycle='+this.machineDetail['cycle']+'&auto='+this.machineDetail['auto']+'&panel='+this.machineDetail['panel']+'&info='+this.machineDetail['info']+'&HOST='+this.machineDetail['HOST']+'&ip='+this.machineDetail['ip'])
+                let url = window.location.href.replace(window.location.hash,'');
+                axios.get(url + 'X/index.php?action=AddMachine&id='+this.$route.params.id + '&name='+this.machineDetail['name']+'&liked='+this.machineDetail['liked']+'&deadline='+this.machineDetail['deadline']+'&location='+this.machineDetail['location']+'&fee='+this.machineDetail['fee']+'&cycle='+this.machineDetail['cycle']+'&auto='+this.machineDetail['auto']+'&panel='+this.machineDetail['panel']+'&info='+this.machineDetail['info']+'&HOST='+this.machineDetail['HOST']+'&ip='+this.machineDetail['ip'])
                     .then((response)=>{
                         if(response.data === 1){
                             alert("添加成功")
@@ -685,7 +692,8 @@ let machine_delete_component = Vue.component('machine_delete_component',{
     },
     methods:{
         getDetail: function(){
-            axios.get('/X/getMachineDetail?id=' + this.$route.params.id)
+            let url = window.location.href.replace(window.location.hash,'');
+            axios.get(url + 'X/index.php?action=getMachineDetail&id=' + this.$route.params.id)
                 .then((response)=>{
                     this.machineDetail = response.data[0]
                })
@@ -696,7 +704,8 @@ let machine_delete_component = Vue.component('machine_delete_component',{
         },
         ensureDelete: function(){
             if(this.input === 'yes'){
-                axios.get('/X/DeleteMachine?id='+this.$route.params.id)
+                let url = window.location.href.replace(window.location.hash,'');
+                axios.get(url + 'X/index.php?action=DeleteMachine&id='+this.$route.params.id)
                     .then((response)=>{
                         if(response.data === 1){
                             alert('删除成功~')
