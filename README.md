@@ -1,10 +1,10 @@
 ## 订阅助手(小鸡管理)
 
-![image-20201119155541752](C:\Users\季悠然\AppData\Roaming\Typora\typora-user-images\image-20201119155541752.png)
+![图1](https://cdn.exia.xyz/img/blog/588/20201127084700.png)
 
-![image-20201119155803408](C:\Users\季悠然\AppData\Roaming\Typora\typora-user-images\image-20201119155803408.png)
+![图2](https://cdn.exia.xyz/img/blog/588/20201127084808.png)
 
-![image-20201119155818555](C:\Users\季悠然\AppData\Roaming\Typora\typora-user-images\image-20201119155818555.png)
+![图3](https://cdn.exia.xyz/img/blog/588/20201127084900.png)
 
 
 
